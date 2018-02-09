@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lt.dao.LoanDepartmentDao">
+	
+	<resultMap  id="loanDepartmentMap" type="cn.lt.po.LoanDepartment">
+		<id column="id" property="id"/>
+		<result column="loan_id" property="loanId"/>
+		<result column="d_id" property="dId"/>
+		<result column="num" property="num"/>
+		<result column="remaining_num" property="remainingNum"/>
+		<association  property="loan" javaType="cn.lt.po.Loan">
+            <id column="id" property="id"/>
+            <result column="title" property="title"/>
+			<result column="desc" property="desc"/>
+			<result column="the_year" property="theYear"/>
+			<result column="is_del" property="isDel"/>
+			<result column="num" property="num"/>
+			<result column="remaining_num" property="remainingNum"/>
+        </association>
+	</resultMap>
+
+	<select id="getLDById" resultMap="loanDepartmentMap" resultType="cn.lt.po.LoanDepartment" parameterType="java.lang.Integer">
+	  select * from p_loan_department where id=#{id}
+	</select>
+	
+	<select id="findAll" resultMap="loanDepartmentMap" resultType="cn.lt.po.LoanDepartment" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_loan_department a left join p_loan b on a.loan_id=b.id where 1=1
+	  <if test="dId!=null">
+	  and a.d_id=#{dId}
+	  </if>
+	  <if test="loanId!=null">
+	  and a.loan_id=#{loanId}
+	  </if>
+	</select>
+	
+	<delete id="del" parameterType="cn.lt.vo.IndexVo">
+		 delete from p_loan_department where 1=1
+		 <if test="id!=null">
+		 and id=#{id}
+		 </if>
+		 <if test="loanId!=null">
+		 and loan_id=#{loanId}
+		 </if>
+	</delete>
+
+	<insert id="add" parameterType="cn.lt.vo.LoanVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into p_loan_department(loan_id,d_id,num,remaining_num) 
+	  values(#{loanId},#{dId},#{num},#{remainingNum})
+	</insert> 
+	
+	<update id="edit" parameterType="cn.lt.vo.LoanVo">
+  	  update p_loan_department set
+  	  num =#{num},remaining_num=#{remainingNum}
+	  where id=#{id}
+    </update>
+	
+</mapper>

@@ -1,0 +1,26 @@
+.layui-layout-admin .layui-header{background-color: #304059;}
+.layui-nav{background-color: #304059;}
+.layui-bg-admin{background-color: #2a3952;!important;}
+.layui-nav-tree{margin-top: 20px;}
+.layui-nav-tree .layui-nav-item{background-color: #304059;}
+.layui-nav-tree .layui-nav-itemed .layui-nav-child{background-color: #2a3952!important;}
+.layui-btn-big-primary{background-color: #1a95f0;}
+.layui-form-label{color: #52575e;}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{background-color: #1a95f0;}
+#pic-tips{color: #c6cad2;}
+/* Start css */
+.login-layout{margin-top: 180px;}
+.login-panel{width: 415px;height: 355px;margin: 0 auto;background: url("../images/login_logo.png") no-repeat center;}
+.login-account,.login-pass{padding-left: 35px;}
+.login-account{background: url("../images/login_account.png") no-repeat left 10px top 9px;}
+.login-pass{background: url("../images/login_pass.png") no-repeat left 10px top 9px;}
+
+.inner-header{height: 64px;border-bottom: 1px solid #e2e2e2;padding-left: 24px;}
+.inner-header .text{height: 30px;line-height: 30px;font-size: 12px;color: #999999;padding-top: 17px;}
+.inner-header .layui-icon{vertical-align: middle;}
+
+.inner-content{padding: 0 17px;}
+.inner-content .title-manage{height: 74px;}
+.inner-content .title-manage .title{height: 74px;line-height: 74px;font-size: 18px;color: #333333;display: inline-block;}
+.inner-content .title-manage .button{margin-top: 18px;width: 120px;height: 38px;line-height: 38px;background-color: #1a95f0;border-radius: 2px;float: right;font-size: 14px;color: #ffffff;text-align: center;display: inline-block;cursor: pointer;}
+.label-required{color: red;}

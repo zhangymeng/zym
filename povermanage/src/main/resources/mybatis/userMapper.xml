@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lt.dao.UserDao">
+	
+	<resultMap  id="userMap" type="cn.lt.po.UserInfo">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="create_date" property="createDate"/>
+		<result column="role_id" property="roleId"/>
+		<result column="d_id" property="dId"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<select id="getUserByUsername" resultMap="userMap" resultType="cn.lt.po.UserInfo" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_user where username=#{username} 
+	  <if test="id!=null" >
+	  	and id!=#{id}
+	  </if>
+	  limit 1
+	</select>
+	
+	<select id="getUserById" resultMap="userMap" resultType="cn.lt.po.UserInfo" parameterType="java.lang.Integer">
+	  select * from p_user where id=#{id}
+	</select>
+	
+	<update id="editUser" parameterType="cn.lt.vo.UserVo">
+  	  update p_user 
+  	  <trim prefix="set" suffixOverrides=",">
+	  	<if test="password!=null" >
+	    	password=#{password},
+	    </if>
+	  	<if test="username!=null" >
+	    	username=#{username},
+	    </if>
+	  </trim>
+	  where id=#{id}
+    </update>
+    
+    <select id="findAll" resultMap="userMap" resultType="cn.lt.po.UserInfo" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_user where role_id!=1 and is_del=1
+	</select>
+	
+	<update id="del" parameterType="cn.lt.vo.IndexVo">
+		 update p_user set is_del=0 where id=#{id}
+	</update>
+	
+	<insert id="add" parameterType="cn.lt.vo.IndexVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into p_user(username,password,create_date,role_id,d_id) 
+	  values(#{username},#{password},#{createDate},2,#{dId})
+	</insert> 
+	
+	<update id="edit" parameterType="cn.lt.vo.IndexVo">
+  	  update p_user set 
+	  username=#{username},password=#{password},d_id=#{dId}
+	  where id=#{id}
+    </update>
+	
+</mapper>

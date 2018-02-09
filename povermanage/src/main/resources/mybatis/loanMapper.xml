@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lt.dao.LoanDao">
+	
+	<resultMap  id="loanMap" type="cn.lt.po.Loan">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="the_year" property="theYear"/>
+		<result column="is_del" property="isDel"/>
+		<result column="num" property="num"/>
+		<result column="remaining_num" property="remainingNum"/>
+	</resultMap>
+
+	<select id="getLoanById" resultMap="loanMap" resultType="cn.lt.po.Loan" parameterType="java.lang.Integer">
+	  select * from p_loan where id=#{id}
+	</select>
+	
+	<select id="findAll" resultMap="loanMap" resultType="cn.lt.po.Loan" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_loan where is_del=1
+	</select>
+	
+	<update id="del" parameterType="cn.lt.vo.IndexVo">
+		 update p_loan set is_del=0 where 1=1 
+		 <if test="id!=null">
+		 and id=#{id}
+		 </if>
+	</update>
+
+	<insert id="add" parameterType="cn.lt.vo.LoanVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into p_loan(title,the_year,is_del,num,remaining_num) 
+	  values(#{title},#{theYear},1,#{num},#{remainingNum})
+	</insert> 
+	
+	<update id="edit" parameterType="cn.lt.vo.LoanVo">
+  	  update p_loan
+  	  <trim prefix="set" suffixOverrides=",">
+	  	<if test=" num!=null" >
+	    	 num=#{num},
+	    </if>
+	  	<if test="remainingNum!=null" >
+	    	remaining_num=#{remainingNum},
+	    </if>
+	  </trim>
+	  where id=#{id}
+    </update>
+	
+</mapper>

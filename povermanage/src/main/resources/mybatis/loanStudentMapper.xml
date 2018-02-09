@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lt.dao.LoanStudentDao">
+	
+	<resultMap  id="loanStudentMap" type="cn.lt.po.LoanStudent">
+		<id column="id" property="id"/>
+		<result column="loan_id" property="loanId"/>
+		<result column="student_id" property="studentId"/>
+		<result column="ld_id" property="ldId"/>
+	</resultMap>
+
+	<select id="getLSById" resultMap="loanStudentMap" resultType="cn.lt.po.LoanStudent" parameterType="java.lang.Integer">
+	  select * from p_loan_student where id=#{id}
+	</select>
+	
+	<select id="findAll" resultMap="loanStudentMap" resultType="cn.lt.po.LoanStudent" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_loan_student where 1=1 
+	  <if test="loanId!=null">
+	  and loan_id=#{loanId}
+	  </if>
+	  <if test="ldId!=null">
+	  and ld_id=#{ldId}
+	  </if>
+	</select>
+	
+	<delete id="del" parameterType="cn.lt.vo.IndexVo">
+		 delete from p_loan_student where id=#{id}
+	</delete>
+
+	<insert id="add" parameterType="cn.lt.vo.LoanVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into p_loan_student(loan_id,student_id,ld_id) 
+	  values(#{loanId},#{studentId},#{ldId})
+	</insert> 
+	
+</mapper>

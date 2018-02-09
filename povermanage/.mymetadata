@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="povermanage"
+  id="myeclipse.1518060104902"
+  context-root="/povermanage"
+  j2ee-spec="6.0"
+  archive="povermanage.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
