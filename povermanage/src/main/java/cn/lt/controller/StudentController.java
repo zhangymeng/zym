@@ -28,22 +28,29 @@ public class StudentController {
 	private StudentService studentService;
 	
 	/**
-	 * 贫困生管�?
+	 * 贫困生管�?
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/page")
     public ModelAndView getListaUtentiView(HttpServletRequest request,IndexVo vo){
 		ModelMap model = new ModelMap();
-		//�?��院系
-		List<Department> dList = studentService.findDepartment(vo);
-		vo.setdId(dList.get(0).getId());
-		List<Professional> pList = studentService.getProfessional(vo);
-		model.addAttribute("dList", dList);
-		model.addAttribute("pList", pList);
 		UserInfo user = (UserInfo)request.getSession().getAttribute("user");
 		if(user!=null){
 			model.addAttribute("userInfo", user);
+			if(user.getRoleId()==1){
+				List<Department> dList = studentService.findDepartment(vo);
+				vo.setdId(dList.get(0).getId());
+				List<Professional> pList = studentService.getProfessional(vo);
+				model.addAttribute("dList", dList);
+				model.addAttribute("pList", pList);
+			}else{
+				Department d = studentService.getDepartmentById(user.getdId());
+				model.addAttribute("department", d);
+				vo.setdId(user.getdId());
+				List<Professional> pList = studentService.getProfessional(vo);
+				model.addAttribute("pList", pList);
+			}
 		}
         return new ModelAndView("student", model);
     }
@@ -74,12 +81,24 @@ public class StudentController {
 	@RequestMapping("/addPage")
     public ModelAndView addPage(HttpServletRequest request,IndexVo vo){
 		ModelMap model = new ModelMap();
-		//�?��院系
-		List<Department> dList = studentService.findDepartment(vo);
-		vo.setdId(dList.get(0).getId());
-		List<Professional> pList = studentService.getProfessional(vo);
-		model.addAttribute("dList", dList);
-		model.addAttribute("pList", pList);
+		//�?��院系
+		UserInfo user = (UserInfo)request.getSession().getAttribute("user");
+		if(user!=null){
+			if(user.getRoleId()==1){
+				List<Department> dList = studentService.findDepartment(vo);
+				vo.setdId(dList.get(0).getId());
+				List<Professional> pList = studentService.getProfessional(vo);
+				model.addAttribute("dList", dList);
+				model.addAttribute("pList", pList);
+			}else{
+				Department d = studentService.getDepartmentById(user.getdId());
+				model.addAttribute("department", d);
+				vo.setdId(user.getdId());
+				List<Professional> pList = studentService.getProfessional(vo);
+				model.addAttribute("pList", pList);
+				
+			}
+		}
         return new ModelAndView("addStu", model);
     }
 	
@@ -95,6 +114,13 @@ public class StudentController {
     public List<Professional> getProfessional(HttpServletRequest request,IndexVo vo){
 		List<Professional> list = studentService.getProfessional(vo);
         return list;
+    }
+	
+	@RequestMapping("/getStuByNo")
+	@ResponseBody
+    public Student getStuByNo(String stuNo){
+		Student stu = studentService.getStudentByNo(stuNo);
+        return stu;
     }
 	
 }

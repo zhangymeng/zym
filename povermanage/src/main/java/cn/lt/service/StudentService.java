@@ -23,4 +23,8 @@ public interface StudentService {
 
 	List<Professional> getProfessional(IndexVo vo);
 
+	Department getDepartmentById(Integer id);
+
+	Student getStudentByNo(String stuNo);
+
 }

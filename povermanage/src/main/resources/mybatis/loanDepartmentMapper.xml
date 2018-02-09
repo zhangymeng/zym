@@ -49,8 +49,15 @@
 	</insert> 
 	
 	<update id="edit" parameterType="cn.lt.vo.LoanVo">
-  	  update p_loan_department set
-  	  num =#{num},remaining_num=#{remainingNum}
+  	  update p_loan_department
+  	  <trim prefix="set" suffixOverrides=",">
+  	  <if test="num!=null">
+  	  num =#{num},
+  	  </if>
+  	  <if test="remainingNum!=null">
+  	  remaining_num=#{remainingNum},
+  	  </if>
+  	  </trim>
 	  where id=#{id}
     </update>
 	

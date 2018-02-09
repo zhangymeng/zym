@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.lt.po.Department;
 import cn.lt.po.Loan;
 import cn.lt.po.LoanDepartment;
+import cn.lt.po.LoanStudent;
 import cn.lt.po.UserInfo;
 import cn.lt.service.LoanService;
 import cn.lt.service.StudentService;
@@ -31,6 +32,12 @@ public class LoanController {
 	@Autowired
 	private StudentService studentService;
 	
+	/**
+	 * menu2 路由
+	 * @param vo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/loanPage")
 	public ModelAndView loanPage(IndexVo vo,HttpServletRequest request){
 		ModelMap model = new ModelMap();
@@ -47,7 +54,7 @@ public class LoanController {
 	}
 	
 	/**
-	 * 助学贷款列表
+	 * 助学贷款列表   院系助学贷款
 	 * @param request
 	 * @param vo
 	 * @return
@@ -93,6 +100,12 @@ public class LoanController {
         return map;
     }
 	
+	/**
+	 * 添加助学贷款
+	 * @param request
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping("/addLoan")
 	@ResponseBody
     public Map<String,Object> addLoan(HttpServletRequest request,LoanVo vo){
@@ -106,6 +119,12 @@ public class LoanController {
         return map;
     }
 	
+	/**
+	 * 添加院系助学贷款写页面
+	 * @param vo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/addPage")
 	public ModelAndView addPage(IndexVo vo,HttpServletRequest request){
 		ModelMap model = new ModelMap();
@@ -138,5 +157,53 @@ public class LoanController {
 			map = loanService.addLD(vo);
 		}
         return map;
+    }
+    
+	@RequestMapping("/addLS")
+	@ResponseBody
+    public Map<String,Object> addLS(HttpServletRequest request,LoanVo vo){
+		Map<String,Object> map = new HashMap<String,Object>();
+		UserInfo user = (UserInfo)request.getSession().getAttribute("user");
+		if(user!=null){
+			//判断是否是本院系学生
+			vo.setdId(user.getdId());
+			
+			vo.setAdminId(user.getId());
+			map = loanService.addLS(vo);
+		}
+        return map;
+    }
+	
+	@RequestMapping("/loanStudent")
+	public ModelAndView loanStudent(IndexVo vo,HttpServletRequest request){
+		ModelMap model = new ModelMap();
+		model.addAttribute("loanId", vo.getLoanId());
+	    return new ModelAndView("loanStudent", model);
+	}
+	
+	@RequestMapping("/allLS")
+	@ResponseBody
+    public Map<String,Object> allLS(HttpServletRequest request,IndexVo vo){
+		Map<String,Object> map = new HashMap<String,Object>();
+		UserInfo user = (UserInfo)request.getSession().getAttribute("user");
+		if(user!=null){
+			//判断是否是本院系学生
+			if(user.getdId()!=0){
+				vo.setdId(user.getdId());
+			}
+			List<LoanStudent> list = loanService.allLS(vo);
+			map.put("code", 0);
+			map.put("msg", "");
+			map.put("count", list.size());
+			map.put("data", list);			
+		}
+        return map;
+    }
+	
+	@RequestMapping("/delLS")
+	@ResponseBody
+    public Integer delLS(HttpServletRequest request,IndexVo vo){
+		Integer count = loanService.delLS(vo);
+        return count;
     }
 }

@@ -7,6 +7,31 @@
 		<result column="loan_id" property="loanId"/>
 		<result column="student_id" property="studentId"/>
 		<result column="ld_id" property="ldId"/>
+		<result column="admin_id" property="adminId"/>
+		<association  property="loan" javaType="cn.lt.po.Loan">
+            <id column="id" property="id"/>
+            <result column="title" property="title"/>
+			<result column="desc" property="desc"/>
+			<result column="the_year" property="theYear"/>
+			<result column="is_del" property="isDel"/>
+			<result column="num" property="num"/>
+			<result column="remaining_num" property="remainingNum"/>
+        </association>
+		<association  property="student" javaType="cn.lt.po.Student">
+            <id column="id" property="id"/>
+			<result column="name" property="name"/>
+			<result column="sex" property="sex"/>
+			<result column="grade_no" property="gradeNo"/>
+			<result column="class_no" property="classNo"/>
+			<result column="d_id" property="dId"/>
+			<result column="p_id" property="pId"/>
+			<result column="stu_no" property="stuNo"/>
+			<result column="phone" property="phone"/>
+        </association>
+        <association  property="userInfo" javaType="cn.lt.po.UserInfo">
+            <id column="id" property="id"/>
+			<result column="username" property="username"/>
+        </association>
 	</resultMap>
 
 	<select id="getLSById" resultMap="loanStudentMap" resultType="cn.lt.po.LoanStudent" parameterType="java.lang.Integer">
@@ -14,12 +39,12 @@
 	</select>
 	
 	<select id="findAll" resultMap="loanStudentMap" resultType="cn.lt.po.LoanStudent" parameterType="cn.lt.vo.IndexVo">
-	  select * from p_loan_student where 1=1 
+	  select * from p_loan_student a left join p_loan b on a.loan_id=b.id left join p_student c on a.student_id=c.id where 1=1 
 	  <if test="loanId!=null">
-	  and loan_id=#{loanId}
+	  and a.loan_id=#{loanId}
 	  </if>
 	  <if test="ldId!=null">
-	  and ld_id=#{ldId}
+	  and a.ld_id=#{ldId}
 	  </if>
 	</select>
 	
@@ -28,8 +53,8 @@
 	</delete>
 
 	<insert id="add" parameterType="cn.lt.vo.LoanVo" useGeneratedKeys="true" keyProperty="id">
-	  insert into p_loan_student(loan_id,student_id,ld_id) 
-	  values(#{loanId},#{studentId},#{ldId})
+	  insert into p_loan_student(loan_id,student_id,ld_id,admin_id) 
+	  values(#{loanId},#{studentId},#{ldId},#{adminId})
 	</insert> 
 	
 </mapper>

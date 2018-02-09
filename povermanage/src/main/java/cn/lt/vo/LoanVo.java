@@ -14,6 +14,28 @@ public class LoanVo {
 	private Integer dId;
 	private Integer editNum;
 	
+	private Integer studentId;
+	private Integer adminId;
+	private String stuNo;
+	
+	public Integer getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
+	}
+	public String getStuNo() {
+		return stuNo;
+	}
+	public void setStuNo(String stuNo) {
+		this.stuNo = stuNo;
+	}
+	public Integer getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(Integer adminId) {
+		this.adminId = adminId;
+	}
 	public Integer getEditNum() {
 		return editNum;
 	}

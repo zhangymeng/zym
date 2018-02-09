@@ -22,7 +22,7 @@
 	<select id="findAll" resultMap="studentMap" resultType="cn.lt.po.Student" parameterType="cn.lt.vo.IndexVo">
 	  select * from p_student where is_del=1
 	  <if test="dId!=null">
-	  d_id=#{dId}
+	  and d_id=#{dId}
 	  </if>
 	</select>
 	
@@ -31,11 +31,11 @@
 	</update>
 	
 	<select id="getStudentByNo" resultMap="studentMap" resultType="cn.lt.po.Student" parameterType="cn.lt.vo.IndexVo">
-	  select * from p_student where stu_no=#{stuNo}
-	  <if test="id!=null">
+	  select * from p_student where stu_no=#{stuNo} and is_del=1
+<!-- 	  <if test="id!=null">
 	  	and id!=#{id}
 	  </if>
-	  limit 1
+	  limit 1 -->
 	</select>
 
 	<insert id="add" parameterType="cn.lt.vo.IndexVo" useGeneratedKeys="true" keyProperty="id">

@@ -10,10 +10,14 @@ import cn.lt.dao.DepartmentDao;
 import cn.lt.dao.LoanDao;
 import cn.lt.dao.LoanDepartmentDao;
 import cn.lt.dao.LoanStudentDao;
+import cn.lt.dao.ProfessionalDao;
+import cn.lt.dao.StudentDao;
 import cn.lt.po.Department;
 import cn.lt.po.Loan;
 import cn.lt.po.LoanDepartment;
 import cn.lt.po.LoanStudent;
+import cn.lt.po.Professional;
+import cn.lt.po.Student;
 import cn.lt.util.Tools;
 import cn.lt.vo.IndexVo;
 import cn.lt.vo.LoanVo;
@@ -32,6 +36,12 @@ public class LoanServiceImpl implements LoanService {
 	
 	@Autowired
 	private DepartmentDao departmentDao;
+	
+	@Autowired
+	private StudentDao studentDao;
+	
+	@Autowired
+	private ProfessionalDao professionalDao;
 	
 	@Override
 	public List<Loan> findLoan(IndexVo vo) {
@@ -193,6 +203,89 @@ public class LoanServiceImpl implements LoanService {
 			}
 		}
 		return Tools.resultMap(result, reason);
+	}
+
+	@Override
+	public Map<String, Object> addLS(LoanVo vo) {
+		boolean result = false;
+		String reason = "";
+		//查看学号存不存在
+		IndexVo indexVo = new IndexVo();
+		indexVo.setStuNo(vo.getStuNo());
+		Student stu = studentDao.getStudentByNo(indexVo);
+		if(stu!=null){
+			if(vo.getdId()==0 || stu.getdId()==vo.getdId()){
+				//查看是否已存在
+				indexVo.setLdId(vo.getLdId());
+				List<LoanStudent> lsList = loanStudentDao.findAll(indexVo);
+				if(lsList.size()>0){
+					reason = "该生已参与当前贷款";
+				}else{
+					vo.setStudentId(stu.getId());
+					LoanDepartment ld = loanDepartmentDao.getLDById(vo.getLdId());
+					if(ld!=null){
+						vo.setLoanId(ld.getLoanId());
+						Integer count = loanStudentDao.add(vo);
+						if(count>0){
+							vo.setId(vo.getLdId());
+							vo.setRemainingNum(ld.getRemainingNum()-1);
+							loanDepartmentDao.edit(vo);
+							result = true;
+						}
+					}
+				}
+			}else{
+				reason = "该学号非本院系学生";
+			}
+		}else{
+			reason = "该学号不存在";
+		}
+		return Tools.resultMap(result, reason);
+	}
+
+	@Override
+	public List<LoanStudent> allLS(IndexVo vo) {
+		List<LoanStudent> list = loanStudentDao.findAll(vo);
+		for(LoanStudent ls:list){
+			Department d = departmentDao.getDepartmentById(ls.getStudent().getdId());
+			if(d!=null && ls.getStudent()!=null){
+				ls.setStuName(ls.getStudent().getName());
+				ls.setStuNo(ls.getStudent().getStuNo());
+				ls.setPhone(ls.getStudent().getPhone());
+				ls.setGradeNo(ls.getStudent().getGradeNo());
+				ls.setDepartment(d.getName());
+				Professional p = professionalDao.getProfessionalById(ls.getStudent().getId());
+				if(p!=null){
+					ls.setProfessional(p.getName());
+				}else{
+					ls.setProfessional("/");
+				}
+				if(ls.getLoan()!=null){
+					ls.setLoanTitle(ls.getLoan().getTitle());
+					ls.setTheYear(ls.getLoan().getTheYear());
+				}
+				if(ls.getUserInfo()!=null){
+					ls.setAdminStr(ls.getUserInfo().getUsername());
+				}
+			}else{
+				ls.setDepartment("/");
+				ls.setProfessional("/");
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Integer delLS(IndexVo vo) {
+		Integer count = loanStudentDao.del(vo);
+		if(count>0){
+			LoanDepartment ld = loanDepartmentDao.getLDById(vo.getLdId());
+			LoanVo loanVo = new LoanVo();
+			loanVo.setId(vo.getLdId());
+			loanVo.setRemainingNum(ld.getRemainingNum()+1);
+			loanDepartmentDao.edit(loanVo);
+		}
+		return count;
 	}
 	
 }

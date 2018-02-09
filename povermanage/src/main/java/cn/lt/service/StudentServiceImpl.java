@@ -104,4 +104,25 @@ public class StudentServiceImpl implements StudentService {
 		return list;
 	}
 
+	@Override
+	public Department getDepartmentById(Integer id) {
+		Department de = departmentDao.getDepartmentById(id);
+		return de;
+	}
+
+	@Override
+	public Student getStudentByNo(String stuNo) {
+		IndexVo vo = new IndexVo();
+		vo.setStuNo(stuNo);
+		Student stu = studentDao.getStudentByNo(vo);
+		if(stu!=null){
+			if(stu.getSex()==1){
+				stu.setSexStr("男");
+			}else{
+				stu.setSexStr("女");
+			}
+		}
+		return stu;
+	}
+
 }

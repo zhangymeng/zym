@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cn.lt.po.Loan;
 import cn.lt.po.LoanDepartment;
+import cn.lt.po.LoanStudent;
 import cn.lt.vo.IndexVo;
 import cn.lt.vo.LoanVo;
 
@@ -25,5 +26,11 @@ public interface LoanService {
 	Map<String, Object> addLD(LoanVo vo);
 
 	Map<String, Object> editLD(LoanVo vo);
+
+	Map<String, Object> addLS(LoanVo vo);
+
+	List<LoanStudent> allLS(IndexVo vo);
+
+	Integer delLS(IndexVo vo);
 
 }

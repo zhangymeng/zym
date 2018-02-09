@@ -69,13 +69,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="layui-form-item">
     <label class="layui-form-label">所属院系</label>
     <div class="layui-input-inline">
-      <select name="dId" id="dId" lay-filter="test">
-      	<option value="0">请选择</option>
-      	<c:if test="${not empty dList}"> 
+    <c:choose>
+    	<c:when test="${not empty dList}"> 
+      	<select name="dId" lay-filter="test">
 	      	<c:forEach items="${dList}" var="d" varStatus="vs">
 	        <option value="${d.id}">${d.name}</option>
 	        </c:forEach>
-        </c:if>
+	    </c:when>
+	    <c:otherwise> 
+	    <select name="dId" id="dId" lay-filter="aihao" disabled="disabled">
+        	<option value="${department.id}">${department.name}</option>
+        </c:otherwise>
+	</c:choose>
       </select>
     </div>
     <div class="layui-input-inline">
