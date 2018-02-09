@@ -62,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     layer.msg("修改成功");
 
 	                setTimeout(function () {
-	                    window.location.href = "<%=basePath%>/login/index"
+	                    window.location.href = "<%=basePath%>/login/basic"
 	                }, 1000);
 
                 } else {

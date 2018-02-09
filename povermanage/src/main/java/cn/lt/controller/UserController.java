@@ -63,21 +63,23 @@ public class UserController {
 					if(count>0){
 						map.put("result", true);
 						
-						UserInfo userInfo = userService.getUserById(user.getdId());
+						UserInfo userInfo = userService.getUserById(id);
 						request.getSession().setAttribute("user", userInfo);
+					}else{
+						map = Tools.resultMap(false, "新密码与旧密码相同");
 					}
 				}else{
 					map = Tools.resultMap(false, "旧密码不正确");
 				}
 			}else{
-				map = Tools.resultMap(false, "两次新密码不�?��");
+				map = Tools.resultMap(false, "两次新密码不一致");
 			}
 		 }
 		 return map;
     }
 	
 	/**
-	 * 管理员页�?
+	 * 管理员页�?
 	 * @return
 	 */
 	@RequestMapping("/page")
@@ -114,7 +116,7 @@ public class UserController {
 	@RequestMapping("/addPage")
     public ModelAndView addPage(HttpServletRequest request,IndexVo vo){
 		ModelMap model = new ModelMap();
-		//�?��院系
+		//�?��院系
 		List<Department> dList = studentService.findDepartment(vo);
 		model.addAttribute("dList", dList);
         return new ModelAndView("addUser", model);

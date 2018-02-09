@@ -3,8 +3,8 @@
   type="WEB"
   name="povermanage"
   id="myeclipse.1518060104902"
-  context-root="/povermanage"
-  j2ee-spec="6.0"
+  context-root="/imitate"
+  j2ee-spec="1.7"
   archive="povermanage.war">
   <attributes>
     <attribute name="webrootdir" value="src/main/webapp" />
