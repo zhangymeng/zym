@@ -93,7 +93,7 @@ layui.use(['table', 'form'],function(){
       layer.msg('ID：'+ data.id + ' 的查看操作');
     } else if(obj.event === 'look'){
       	var loanId = data.loanId;
-      	window.location.href = "<%=basePath%>loan/loanStudent?loanId="+loanId;
+      	window.location.href = "<%=basePath%>loan/loanStudent?loanId="+loanId+"&dId=0";
     } else if(obj.event === 'edit'){
 	      //layer.alert('编辑行：<br>'+ JSON.stringify(data));
 	      if(data.remainingNum<1){
@@ -107,7 +107,7 @@ layui.use(['table', 'form'],function(){
 	      	  title: '修改',
 	          type: 1,
 	          closeBtn: 1,
-	          area: ['400px', '360px'],
+	          area: ['400px', '390px'],
 	          shift: 2,
 	          shadeClose: false,
 	          content: $("#add"),
@@ -126,7 +126,8 @@ layui.use(['table', 'form'],function(){
 				        success: function (aa) {
 				             var proHtml = '';
 				             if(aa!=""){
-				                proHtml = '贷款项：'+data.title+'<br>学生信息：<br>姓名：'+aa.name+'<br>学号：'+aa.stuNo+'<br>性别：'+aa.sexStr+'<br>联系方式：'+aa.phone;
+				                proHtml = '贷款项：'+data.title+'<br>学生姓名：'+aa.name+'<br>学号：'+aa.stuNo+'<br>性别：'+aa.sexStr+'<br>联系方式：'+aa.phone
+				                			+'<br>院系：'+aa.department+'<br>专业：'+aa.professional;
 				             	$('#stuDesc').html(proHtml);
 				             	form.render(); 
 				             }else{

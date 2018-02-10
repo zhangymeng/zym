@@ -214,6 +214,7 @@ public class LoanServiceImpl implements LoanService {
 		indexVo.setStuNo(vo.getStuNo());
 		Student stu = studentDao.getStudentByNo(indexVo);
 		if(stu!=null){
+			indexVo.setStudentId(stu.getId());
 			if(vo.getdId()==0 || stu.getdId()==vo.getdId()){
 				//查看是否已存在
 				indexVo.setLdId(vo.getLdId());
@@ -224,13 +225,17 @@ public class LoanServiceImpl implements LoanService {
 					vo.setStudentId(stu.getId());
 					LoanDepartment ld = loanDepartmentDao.getLDById(vo.getLdId());
 					if(ld!=null){
-						vo.setLoanId(ld.getLoanId());
-						Integer count = loanStudentDao.add(vo);
-						if(count>0){
-							vo.setId(vo.getLdId());
-							vo.setRemainingNum(ld.getRemainingNum()-1);
-							loanDepartmentDao.edit(vo);
-							result = true;
+						if(stu.getdId()==ld.getdId()){
+							vo.setLoanId(ld.getLoanId());
+							Integer count = loanStudentDao.add(vo);
+							if(count>0){
+								vo.setId(vo.getLdId());
+								vo.setRemainingNum(ld.getRemainingNum()-1);
+								loanDepartmentDao.edit(vo);
+								result = true;
+							}
+						}else{
+							reason = "当前贷款与学号所在院系不匹配";
 						}
 					}
 				}
@@ -254,7 +259,7 @@ public class LoanServiceImpl implements LoanService {
 				ls.setPhone(ls.getStudent().getPhone());
 				ls.setGradeNo(ls.getStudent().getGradeNo());
 				ls.setDepartment(d.getName());
-				Professional p = professionalDao.getProfessionalById(ls.getStudent().getId());
+				Professional p = professionalDao.getProfessionalById(ls.getStudent().getpId());
 				if(p!=null){
 					ls.setProfessional(p.getName());
 				}else{

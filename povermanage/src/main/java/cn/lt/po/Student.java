@@ -12,17 +12,16 @@ public class Student {
 	private Integer isDel;
 	private String phone;
 	
+	private String sexStr;
+	private String department;
+	private String professional;
+
 	public String getPhone() {
 		return phone;
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	private String sexStr;
-	private String department;
-	private String professional;
-	
-	
 	public String getStuNo() {
 		return stuNo;
 	}

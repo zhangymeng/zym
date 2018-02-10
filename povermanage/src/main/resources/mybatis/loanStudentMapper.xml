@@ -39,12 +39,18 @@
 	</select>
 	
 	<select id="findAll" resultMap="loanStudentMap" resultType="cn.lt.po.LoanStudent" parameterType="cn.lt.vo.IndexVo">
-	  select * from p_loan_student a left join p_loan b on a.loan_id=b.id left join p_student c on a.student_id=c.id where 1=1 
+	  select * from p_loan_student a left join p_loan b on a.loan_id=b.id left join p_student c on a.student_id=c.id left join p_user d on a.admin_id=d.id where 1=1 
 	  <if test="loanId!=null">
 	  and a.loan_id=#{loanId}
 	  </if>
 	  <if test="ldId!=null">
 	  and a.ld_id=#{ldId}
+	  </if>
+	  <if test="studentId!=null">
+	  and a.student_id=#{studentId}
+	  </if>
+	  <if test="dId!=null">
+	  and c.d_id=#{dId}
 	  </if>
 	</select>
 	

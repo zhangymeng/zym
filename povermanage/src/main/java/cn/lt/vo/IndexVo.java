@@ -23,6 +23,15 @@ public class IndexVo {
 	private Integer editNum;
 	
 	private Integer ldId;
+	private Integer studentId;
+
+	public Integer getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
+	}
 
 	public Integer getEditNum() {
 		return editNum;

@@ -121,6 +121,18 @@ public class StudentServiceImpl implements StudentService {
 			}else{
 				stu.setSexStr("女");
 			}
+			Department d = departmentDao.getDepartmentById(stu.getdId());
+			Professional p = professionalDao.getProfessionalById(stu.getpId());
+			if(p!=null){
+				stu.setProfessional(p.getName());
+			}else{
+				stu.setProfessional("未查询到");
+			}
+			if(d!=null){
+				stu.setDepartment(d.getName());
+			}else{
+				stu.setDepartment("未查询到");
+			}
 		}
 		return stu;
 	}

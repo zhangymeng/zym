@@ -178,6 +178,7 @@ public class LoanController {
 	public ModelAndView loanStudent(IndexVo vo,HttpServletRequest request){
 		ModelMap model = new ModelMap();
 		model.addAttribute("loanId", vo.getLoanId());
+		model.addAttribute("dId", vo.getdId());
 	    return new ModelAndView("loanStudent", model);
 	}
 	
@@ -187,7 +188,6 @@ public class LoanController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		UserInfo user = (UserInfo)request.getSession().getAttribute("user");
 		if(user!=null){
-			//判断是否是本院系学生
 			if(user.getdId()!=0){
 				vo.setdId(user.getdId());
 			}

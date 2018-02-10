@@ -61,6 +61,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </form>
 </div>
 
+<div id="addLS" style="display:none; margin-top:20px">
+<form class="layui-form" action="">  
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">学号</label>
+    <div class="layui-input-block">
+      <input type="text" id="stuNo" name="stuNo" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input" style="width:70%;">
+    </div>
+  </div>
+  
+  <div class="layui-form-item" style="margin-top:30px">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit="" lay-filter="demo2">确认分配</button>
+    </div>
+  </div>
+  </form>
+  <div id="stuDesc" style="margin-left:110px;"></div>
+</div>
+
 <!-- <div class="layui-btn-group demoTable">
   <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
   <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
@@ -86,6 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </table>
  </div>
 <script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="look">查看分配情况</a>
   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">分配学生</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -108,7 +128,49 @@ layui.use(['table', 'form'],function(){
   table.on('tool(demo)', function(obj){
     var data = obj.data;
     if(obj.event === 'detail'){
-      layer.msg('ID：'+ data.id + ' 的查看操作');
+      //layer.msg('ID：'+ data.id + ' 的查看操作');
+      if(data.remainingNum<1){
+      	layer.msg("无名额，不可分配");
+      	return;
+      }
+   	  $('#stuNo').val('');
+   	  $('#stuDesc').html('');
+   	  ldId = data.id; 
+      layer.open({
+      	  title: '修改',
+          type: 1,
+          closeBtn: 1,
+          area: ['400px', '390px'],
+          shift: 2,
+          shadeClose: false,
+          content: $("#addLS"),
+          btn: ['查看分配信息'],
+          yes: function(index, layero){
+          	var stuNo = $("#stuNo").val();
+          	if(stuNo==null || stuNo==""){
+          		layer.msg("请先输入学号");
+          	}else{
+          		//显示分配信息
+          		$.ajax({
+					url: "<%=basePath%>student/getStuByNo",
+			        data: {
+			        	"stuNo":stuNo,
+			        },
+			        success: function (aa) {
+			             var proHtml = '';
+			             if(aa!=""){
+			                proHtml = '贷款项：'+data.title+'<br>学生姓名：'+aa.name+'<br>学号：'+aa.stuNo+'<br>性别：'+aa.sexStr+'<br>联系方式：'+aa.phone
+				                			+'<br>院系：'+aa.department+'<br>专业：'+aa.professional;
+			             	$('#stuDesc').html(proHtml);
+			             	form.render(); 
+			             }else{
+			             	layer.msg("该学号不存在");
+			             }
+			        }
+		     	});
+          	}
+          }
+      });
     } else if(obj.event === 'del'){
     //删除操作
       layer.confirm('真的删除行么', function(index){
@@ -150,10 +212,12 @@ layui.use(['table', 'form'],function(){
 	      });
 	      $("#num").val(data.num);
 	      $("#dId option[value='"+ data.dId +"']").prop('selected', true);
-	      $("#dId").disabled=false;
+	      $("#dId").prop("disabled",true);
 	      form.render();  
 	      id = data.id;
 	      nums = data.num;
+    }else if(obj.event === 'look'){
+    	window.location.href = "<%=basePath%>loan/loanStudent?loanId=${loanId}&dId="+data.dId;
     }
   });
   
@@ -230,7 +294,33 @@ form.on('submit(demo1)', function(data){
      return false;
   });
 
-
+form.on('submit(demo2)', function(data){
+	var stuNo = data.field.stuNo;
+	if(stuNo==null || stuNo==""){
+		layer.msg("请先输入学号");
+		return;
+	}
+	$.ajax({
+		url: "<%=basePath%>loan/addLS",
+        data: {
+        	"ldId":ldId,
+            "stuNo" : stuNo,
+        },
+        success: function (data) {
+			if(data.result==true){
+			   layer.msg("添加成功");
+               setTimeout(function () {
+                   window.location.href = "<%=basePath%>loan/addLD?loanId=${loanId}";
+               }, 1000);
+				
+			}else{
+				layer.msg(data.reason);
+			}
+        }
+    });
+     return false;
+  });
+  
   var $ = layui.$, active = {
   	//添加
     add: function(){ 
@@ -245,7 +335,7 @@ form.on('submit(demo1)', function(data){
       	});
       	$("#num").val("");
 	    $("#dId option[value='0']").prop('selected', true);
-	    $("#dId").disabled=true;
+	    $("#dId").removeAttr('disabled'); 
     }
     
     

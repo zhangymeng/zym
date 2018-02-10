@@ -54,13 +54,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div> -->
 <div class="student" style="margin-left: 30px;">
-<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/loan/allLS?loanId=${loanId}', page:true, id:'idTest'}" lay-filter="demo">
+<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/loan/allLS?loanId=${loanId}&dId=${dId}', page:true, id:'idTest'}" lay-filter="demo">
   <thead>
 	  <tr>
 	  	<th lay-data="{field:'id', width:40, sort: true, fixed: true}" rowspan="2">ID</th>
 	  	<th lay-data="{align:'center'}" colspan="2">贷款信息</th>
 	  	<th lay-data="{align:'center'}" colspan="6">学生信息</th>
-	  	<th lay-data="{field:'adminStr', width:110}" rowspan="2">经办人</th>
+	  	<th lay-data="{field:'adminStr', width:160}" rowspan="2">经办人</th>
 		<th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}" rowspan="2">操作</th>
 	  </tr>
       
