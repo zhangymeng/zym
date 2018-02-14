@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lt.dao.AidDepartmentDao">
+	
+	<resultMap  id="aidDepartmentMap" type="cn.lt.po.AidDepartment">
+		<id column="id" property="id"/>
+		<result column="aid_id" property="aidId"/>
+		<result column="d_id" property="dId"/>
+		<result column="num" property="num"/>
+		<result column="remaining_num" property="remainingNum"/>
+		<association  property="aid" javaType="cn.lt.po.Aid">
+            <id column="id" property="id"/>
+            <result column="title" property="title"/>
+			<result column="the_year" property="theYear"/>
+			<result column="is_del" property="isDel"/>
+			<result column="num" property="num"/>
+			<result column="remaining_num" property="remainingNum"/>
+        </association>
+	</resultMap>
+
+	<select id="getADById" resultMap="aidDepartmentMap" resultType="cn.lt.po.AidDepartment" parameterType="java.lang.Integer">
+	  select * from p_aid_department where id=#{id}
+	</select>
+	
+	<select id="findAll" resultMap="aidDepartmentMap" resultType="cn.lt.po.AidDepartment" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_aid_department a left join p_aid b on a.aid_id=b.id where 1=1
+	  <if test="dId!=null">
+	  and a.d_id=#{dId}
+	  </if>
+	  <if test="aidId!=null">
+	  and a.aid_id=#{aidId}
+	  </if>
+	</select>
+	
+	<delete id="del" parameterType="cn.lt.vo.IndexVo">
+		 delete from p_aid_department where 1=1
+		 <if test="id!=null">
+		 and id=#{id}
+		 </if>
+		 <if test="aidId!=null">
+		 and aid_id=#{aidId}
+		 </if>
+	</delete>
+
+	<insert id="add" parameterType="cn.lt.vo.AidVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into p_aid_department(aid_id,d_id,num,remaining_num) 
+	  values(#{aidId},#{dId},#{num},#{remainingNum})
+	</insert> 
+	
+	<update id="edit" parameterType="cn.lt.vo.AidVo">
+  	  update p_aid_department
+  	  <trim prefix="set" suffixOverrides=",">
+  	  <if test="num!=null">
+  	  num =#{num},
+  	  </if>
+  	  <if test="remainingNum!=null">
+  	  remaining_num=#{remainingNum},
+  	  </if>
+  	  </trim>
+	  where id=#{id}
+    </update>
+	
+</mapper>

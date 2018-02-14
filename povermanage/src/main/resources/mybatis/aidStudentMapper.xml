@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lt.dao.AidStudentDao">
+	
+	<resultMap  id="aidStudentMap" type="cn.lt.po.AidStudent">
+		<id column="id" property="id"/>
+		<result column="aid_id" property="aidId"/>
+		<result column="student_id" property="studentId"/>
+		<result column="ad_id" property="adId"/>
+		<result column="admin_id" property="adminId"/>
+		<association  property="aid" javaType="cn.lt.po.Aid">
+            <id column="id" property="id"/>
+            <result column="title" property="title"/>
+			<result column="the_year" property="theYear"/>
+			<result column="is_del" property="isDel"/>
+			<result column="num" property="num"/>
+			<result column="remaining_num" property="remainingNum"/>
+        </association>
+		<association  property="student" javaType="cn.lt.po.Student">
+            <id column="id" property="id"/>
+			<result column="name" property="name"/>
+			<result column="sex" property="sex"/>
+			<result column="grade_no" property="gradeNo"/>
+			<result column="class_no" property="classNo"/>
+			<result column="d_id" property="dId"/>
+			<result column="p_id" property="pId"/>
+			<result column="stu_no" property="stuNo"/>
+			<result column="phone" property="phone"/>
+        </association>
+        <association  property="userInfo" javaType="cn.lt.po.UserInfo">
+            <id column="id" property="id"/>
+			<result column="username" property="username"/>
+        </association>
+	</resultMap>
+
+	<select id="getASById" resultMap="aidStudentMap" resultType="cn.lt.po.AidStudent" parameterType="java.lang.Integer">
+	  select * from p_aid_student where id=#{id}
+	</select>
+	
+	<select id="findAll" resultMap="aidStudentMap" resultType="cn.lt.po.AidStudent" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_aid_student a left join p_aid b on a.aid_id=b.id left join p_student c on a.student_id=c.id left join p_user d on a.admin_id=d.id where 1=1 
+	  <if test="aidId!=null">
+	  and a.aid_id=#{aidId}
+	  </if>
+	  <if test="adId!=null">
+	  and a.ad_id=#{adId}
+	  </if>
+	  <if test="studentId!=null">
+	  and a.student_id=#{studentId}
+	  </if>
+	  <if test="dId!=null">
+	  and c.d_id=#{dId}
+	  </if>
+	</select>
+	
+	<delete id="del" parameterType="cn.lt.vo.IndexVo">
+		 delete from p_aid_student where id=#{id}
+	</delete>
+
+	<insert id="add" parameterType="cn.lt.vo.AidVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into p_aid_student(aid_id,student_id,ad_id,admin_id) 
+	  values(#{aidId},#{studentId},#{adId},#{adminId})
+	</insert> 
+	
+</mapper>

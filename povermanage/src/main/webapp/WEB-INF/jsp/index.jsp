@@ -85,7 +85,6 @@ layui.use('element', function(){
 
 function toPage(aa){
     var the_link = $(aa).attr("data-url");
-    alert(the_link);
     if(the_link) {
         $("#admin-frame").attr('src', the_link);
     }
