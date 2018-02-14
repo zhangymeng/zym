@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>社会资助管理</title>
+    <title>奖学金管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -93,13 +93,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="layui-btn" data-type="add">添加</button>
 </div>
 <div class="student" style="margin-left: 30px;">
-<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/social/findAll?sId=${sId}&type=1', page:true, id:'idTest'}" lay-filter="demo">
+<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/scholarship/findAll?sId=${sId}&type=1', page:true, id:'idTest'}" lay-filter="demo">
   <thead>
     <tr>
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
       <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
       <th lay-data="{field:'department', width:200}">院系</th>
-      <th lay-data="{field:'title', width:200}">资助名称</th>
+      <th lay-data="{field:'title', width:200}">奖学金描述</th>
       <th lay-data="{field:'theYear', width:100 sort: true">年度</th>
       <th lay-data="{field:'num', width:100, sort: true}">总名额</th>
       <th lay-data="{field:'remainingNum', width:150, sort: true}">现剩余名额</th>
@@ -179,7 +179,7 @@ layui.use(['table', 'form'],function(){
     //删除操作
       layer.confirm('真的删除行么', function(index){
       $.ajax({
-		url: "<%=basePath%>/social/delSD",
+		url: "<%=basePath%>/scholarship/delSD",
                     data: {
                         "id" : JSON.stringify(data.id),
                         "editNum":parseInt(data.num),
@@ -221,7 +221,7 @@ layui.use(['table', 'form'],function(){
 	      id = data.id;
 	      nums = data.num;
     }else if(obj.event === 'look'){
-    	window.location.href = "<%=basePath%>social/socialStudent?sId=${sId}&dId="+data.dId;
+    	window.location.href = "<%=basePath%>scholarship/scStudent?sId=${sId}&dId="+data.dId;
     }
   });
   
@@ -251,7 +251,7 @@ form.on('submit(demo1)', function(data){
 	if(id!=null){
 	//修改
 		$.ajax({
-			url: "<%=basePath%>social/addSD",
+			url: "<%=basePath%>scholarship/addSD",
 	        data: {
 	        	"id":id,
 	            "num" : num,
@@ -263,7 +263,7 @@ form.on('submit(demo1)', function(data){
 				   layer.msg("修改成功");
 	
 	               setTimeout(function () {
-	                   window.location.href = "<%=basePath%>social/addSDPage?sId="+sId;
+	                   window.location.href = "<%=basePath%>scholarship/addSDPage?sId="+sId;
 	               }, 1000);
 					
 				}else{
@@ -274,7 +274,7 @@ form.on('submit(demo1)', function(data){
 	}else{
 	//添加
 		$.ajax({
-			url: "<%=basePath%>social/addSD",
+			url: "<%=basePath%>scholarship/addSD",
 	        data: {
 	        	"sId":sId,
 	            "dId" : dId,
@@ -285,7 +285,7 @@ form.on('submit(demo1)', function(data){
 				   layer.msg("添加成功");
 	
 	               setTimeout(function () {
-	                   window.location.href = "<%=basePath%>social/addSDPage?sId="+sId;
+	                   window.location.href = "<%=basePath%>scholarship/addSDPage?sId="+sId;
 	               }, 1000);
 					
 				}else{
@@ -305,7 +305,7 @@ form.on('submit(demo2)', function(data){
 		return;
 	}
 	$.ajax({
-		url: "<%=basePath%>social/addSS",
+		url: "<%=basePath%>scholarship/addSS",
         data: {
         	"sdId":sdId,
             "stuNo" : stuNo,
@@ -314,7 +314,7 @@ form.on('submit(demo2)', function(data){
 			if(data.result==true){
 			   layer.msg("添加成功");
                setTimeout(function () {
-                   window.location.href = "<%=basePath%>social/addSDPage?sId=${sId}";
+                   window.location.href = "<%=basePath%>scholarship/addSDPage?sId=${sId}";
                }, 1000);
 				
 			}else{
@@ -367,7 +367,7 @@ form.on('submit(demo2)', function(data){
 });
 
 function backBtn(){
-	window.location.href = "<%=basePath%>social/socialPage";
+	window.location.href = "<%=basePath%>scholarship/scPage";
 } 
 </script>
 

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.lt.dao.SocialDepartmentDao">
+<mapper namespace="cn.lt.dao.ScholarshipDepartmentDao">
 	
-	<resultMap  id="socialDepartmentMap" type="cn.lt.po.SocialDepartment">
+	<resultMap  id="scholarshipDepartmentMap" type="cn.lt.po.ScholarshipDepartment">
 		<id column="id" property="id"/>
 		<result column="s_id" property="sId"/>
 		<result column="d_id" property="dId"/>
 		<result column="num" property="num"/>
 		<result column="remaining_num" property="remainingNum"/>
-		<association  property="social" javaType="cn.lt.po.Social">
+		<association  property="scholarship" javaType="cn.lt.po.Scholarship">
             <id column="id" property="id"/>
             <result column="title" property="title"/>
-			<result column="desc" property="desc"/>
 			<result column="the_year" property="theYear"/>
 			<result column="is_del" property="isDel"/>
 			<result column="num" property="num"/>
@@ -19,12 +18,12 @@
         </association>
 	</resultMap>
 
-	<select id="getSDById" resultMap="socialDepartmentMap" resultType="cn.lt.po.SocialDepartment" parameterType="java.lang.Integer">
-	  select * from p_social_department where id=#{id}
+	<select id="getSDById" resultMap="scholarshipDepartmentMap" resultType="cn.lt.po.ScholarshipDepartment" parameterType="java.lang.Integer">
+	  select * from p_scholarship_department where id=#{id}
 	</select>
 	
-	<select id="findAll" resultMap="socialDepartmentMap" resultType="cn.lt.po.SocialDepartment" parameterType="cn.lt.vo.IndexVo">
-	  select * from p_social_department a left join p_social b on a.s_id=b.id where 1=1
+	<select id="findAll" resultMap="scholarshipDepartmentMap" resultType="cn.lt.po.ScholarshipDepartment" parameterType="cn.lt.vo.IndexVo">
+	  select * from p_scholarship_department a left join p_scholarship b on a.s_id=b.id where 1=1
 	  <if test="dId!=null">
 	  and a.d_id=#{dId}
 	  </if>
@@ -34,7 +33,7 @@
 	</select>
 	
 	<delete id="del" parameterType="cn.lt.vo.IndexVo">
-		 delete from p_social_department where 1=1
+		 delete from p_scholarship_department where 1=1
 		 <if test="id!=null">
 		 and id=#{id}
 		 </if>
@@ -44,12 +43,12 @@
 	</delete>
 
 	<insert id="add" parameterType="cn.lt.vo.SocialVo" useGeneratedKeys="true" keyProperty="id">
-	  insert into p_social_department(s_id,d_id,num,remaining_num) 
+	  insert into p_scholarship_department(s_id,d_id,num,remaining_num) 
 	  values(#{sId},#{dId},#{num},#{remainingNum})
 	</insert> 
 	
 	<update id="edit" parameterType="cn.lt.vo.SocialVo">
-  	  update p_social_department
+  	  update p_scholarship_department
   	  <trim prefix="set" suffixOverrides=",">
   	  <if test="num!=null">
   	  num =#{num},

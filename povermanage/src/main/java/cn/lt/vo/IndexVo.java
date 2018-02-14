@@ -28,6 +28,25 @@ public class IndexVo {
 	private Integer sId;
 	private Integer sdId;
 
+	private Integer aidId;
+	private Integer adId;
+	
+	public Integer getAidId() {
+		return aidId;
+	}
+
+	public void setAidId(Integer aidId) {
+		this.aidId = aidId;
+	}
+
+	public Integer getAdId() {
+		return adId;
+	}
+
+	public void setAdId(Integer adId) {
+		this.adId = adId;
+	}
+
 	public Integer getsId() {
 		return sId;
 	}

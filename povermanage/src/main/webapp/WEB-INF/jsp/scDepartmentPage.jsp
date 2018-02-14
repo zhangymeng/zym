@@ -23,10 +23,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" href="<%=basePath%>/static/css/layui.css">
   </head>
 <body>  
- <div style="float:right;margin-top:40px;margin-right:30px;cursor:pointer;" onclick="backBtn()">
- <i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#x1006;</i>  
- </div> 
-
 <div style="margin-bottom: 5px;">       
    
 <ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
@@ -58,31 +54,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div> -->
 <div class="student" style="margin-left: 30px;">
-<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/social/allSS?sId=${sId}&dId=${dId}', page:true, id:'idTest'}" lay-filter="demo">
+<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/scholarship/findAll?sId=${sId}&type=1', page:true, id:'idTest'}" lay-filter="demo">
   <thead>
-	  <tr>
-	  	<th lay-data="{field:'id', width:40, sort: true, fixed: true}" rowspan="2">ID</th>
-	  	<th lay-data="{align:'center'}" colspan="2">社会资助信息</th>
-	  	<th lay-data="{align:'center'}" colspan="6">学生信息</th>
-	  	<th lay-data="{field:'adminStr', width:160}" rowspan="2">经办人</th>
-		<th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}" rowspan="2">操作</th>
-	  </tr>
-      
-      <tr>
-      <th lay-data="{field:'socialTitle', width:190}">描述</th>
-      <th lay-data="{field:'theYear', width:70}">年度</th>
-      <th lay-data="{field:'gradeNo', width:60 sort: true}">级</th>
-      <th lay-data="{field:'stuName', width:110, sort: true}">姓名</th>
-      <th lay-data="{field:'stuNo', width:130, sort: true}">学号</th>
-      <th lay-data="{field:'phone', width:150, sort: true}">联系方式</th>
-      <th lay-data="{field:'department', width:145, sort: true}">院系</th>
-      <th lay-data="{field:'professional', width:145, sort: true}">专业</th>
+    <tr>
+     <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
+      <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
+      <th lay-data="{field:'department', width:200}">院系</th>
+      <th lay-data="{field:'title', width:400}">奖学金描述</th>
+      <th lay-data="{field:'theYear', width:100 sort: true">年度</th>
+      <th lay-data="{field:'num', width:100, sort: true}">总名额</th>
+      <th lay-data="{field:'remainingNum', width:150, sort: true}">现剩余名额</th>
+      <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
   </thead>
 </table>
  </div>
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="look">查看分配情况</a>
+	<a class="layui-btn layui-btn-xs" lay-event="edit">分配学生</a>
 </script>
                
           
@@ -100,29 +89,55 @@ layui.use(['table', 'form'],function(){
   //监听工具条
   table.on('tool(demo)', function(obj){
     var data = obj.data;
-    if(obj.event === 'del'){
-      layer.confirm('真的删除行么', function(index){
-	      $.ajax({
-			  url: "<%=basePath%>/social/delSS",
-	          data: {
-	                "id" : data.id,
-	                "sdId":data.sdId
-	                },
-	          success: function (count) {
-				  if(count>0){
-					  obj.del();
-		    		  layer.close(index);
-		    		  layer.msg("删除成功");
-				  }else{
-					  layer.msg("删除失败");
-				   }
-	          }
-	      });
-      });
+    if(obj.event === 'detail'){
+      layer.msg('ID：'+ data.id + ' 的查看操作');
     } else if(obj.event === 'look'){
-      
+      	var sId = data.sId;
+      	window.location.href = "<%=basePath%>scholarship/scStudent?sId="+sId+"&dId=0";
     } else if(obj.event === 'edit'){
 	      //layer.alert('编辑行：<br>'+ JSON.stringify(data));
+	      if(data.remainingNum<1){
+	      	layer.msg("无名额，不可分配");
+	      	return;
+	      }
+      	  $('#stuNo').val('');
+      	  $('#stuDesc').html('');
+      	  sdId = data.id; 
+	      layer.open({
+	      	  title: '修改',
+	          type: 1,
+	          closeBtn: 1,
+	          area: ['400px', '390px'],
+	          shift: 2,
+	          shadeClose: false,
+	          content: $("#add"),
+	          btn: ['查看分配信息'],
+	          yes: function(index, layero){
+	          	var stuNo = $("#stuNo").val();
+	          	if(stuNo==null || stuNo==""){
+	          		layer.msg("请先输入学号");
+	          	}else{
+	          		//显示分配信息
+	          		$.ajax({
+						url: "<%=basePath%>student/getStuByNo",
+				        data: {
+				        	"stuNo":stuNo,
+				        },
+				        success: function (aa) {
+				             var proHtml = '';
+				             if(aa!=""){
+				                proHtml = '贷款项：'+data.title+'<br>学生姓名：'+aa.name+'<br>学号：'+aa.stuNo+'<br>性别：'+aa.sexStr+'<br>联系方式：'+aa.phone
+				                			+'<br>院系：'+aa.department+'<br>专业：'+aa.professional;
+				             	$('#stuDesc').html(proHtml);
+				             	form.render(); 
+				             }else{
+				             	layer.msg("该学号不存在");
+				             }
+				        }
+			     	});
+	          	}
+	          }
+	      });
     }
   });
   
@@ -138,6 +153,35 @@ form.verify({
       layedit.sync(editIndex);
     }
 });
+
+  //监听添加提交
+form.on('submit(demo1)', function(data){
+	var stuNo = data.field.stuNo;
+	if(stuNo==null || stuNo==""){
+		layer.msg("请先输入学号");
+		return;
+	}
+	$.ajax({
+		url: "<%=basePath%>scholarship/addSS",
+        data: {
+        	"sdId":sdId,
+            "stuNo" : stuNo,
+        },
+        success: function (data) {
+			if(data.result==true){
+			   layer.msg("添加成功");
+               setTimeout(function () {
+                   window.location.href = "<%=basePath%>scholarship/scPage";
+               }, 1000);
+				
+			}else{
+				layer.msg(data.reason);
+			}
+        }
+    });
+     return false;
+  });
+
 
   var $ = layui.$, active = {
     //以下未使用
@@ -162,15 +206,6 @@ form.verify({
     active[type] ? active[type].call(this) : '';
   });
 });
-
-function backBtn(){
-	var dId = "${dId}";
-	if(dId>0){
-		window.location.href = "<%=basePath%>social/addSDPage?sId=${sId}";
-	}else{
-		window.location.href = "<%=basePath%>social/socialPage";
-	}
-}
 </script>
 
 </body>
