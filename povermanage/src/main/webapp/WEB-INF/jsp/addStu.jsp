@@ -24,6 +24,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+ <div style="float:right;margin-right:30px;cursor:pointer;" onclick="backBtn()">
+ <i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#x1006;</i>  
+ </div>
+ 
 <div id="add" class="layui-row" style="margin-top: 80px;">
 <form class="layui-form" action="">
   <div class="layui-form-item">
@@ -38,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <input type="text" name="stuNo" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input" style="width:30%;">
     </div>
   </div>
-  
+ 
   <div class="layui-form-item">
     <div class="layui-inline">
       <label class="layui-form-label">联系方式</label>
@@ -170,8 +174,6 @@ layui.use(['form', 'layedit', 'laydate'], function(){
      });
 });
   
-  
-  
   //监听提交
 form.on('submit(demo1)', function(data){
 	var name = data.field.name;
@@ -203,9 +205,11 @@ form.on('submit(demo1)', function(data){
      });
      return false;
   });
-  
-  
 });
+
+function backBtn(){
+	window.location.href = "<%=basePath%>student/page";
+} 
 </script>
   </body>
 </html>

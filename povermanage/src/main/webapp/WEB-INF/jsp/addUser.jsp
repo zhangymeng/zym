@@ -24,6 +24,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+ <div style="float:right;margin-right:30px;cursor:pointer;" onclick="backBtn()">
+ <i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#x1006;</i>  
+ </div>
+  
 <div id="add" class="layui-row" style="margin-top: 80px;">
 <form class="layui-form" action="">
   <div class="layui-form-item">
@@ -128,9 +132,11 @@ form.on('submit(demo1)', function(data){
      });
      return false;
   });
-  
-  
 });
+
+function backBtn(){
+	window.location.href = "<%=basePath%>user/page";
+} 
 </script>
   </body>
 </html>

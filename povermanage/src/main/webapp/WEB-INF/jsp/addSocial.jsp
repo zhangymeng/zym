@@ -133,7 +133,7 @@ form.on('submit(demo1)', function(data){
 		return;
 	}
     $.ajax({
-		url: "<%=basePath%>loan/addLoan",
+		url: "<%=basePath%>social/addSocial",
         data: {
             "title" : title,
             "theYear" : theYear,
@@ -141,7 +141,7 @@ form.on('submit(demo1)', function(data){
         },
         success: function (data) {
 			if(data.result==true){
-				window.location.href = "<%=basePath%>loan/loanPage";
+				window.location.href = "<%=basePath%>social/socialPage";
 			}else{
 				layer.msg(data.reason);
 			}
@@ -153,7 +153,7 @@ form.on('submit(demo1)', function(data){
 });
 
 function backBtn(){
-	window.location.href = "<%=basePath%>loan/loanPage";
+	window.location.href = "<%=basePath%>social/socialPage";
 } 
 </script>
   </body>

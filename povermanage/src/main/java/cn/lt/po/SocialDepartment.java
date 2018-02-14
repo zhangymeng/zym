@@ -1,51 +1,34 @@
 package cn.lt.po;
 
-public class LoanDepartment {
+public class SocialDepartment {
 	private Integer id;
-	private Integer loanId;
+	private Integer sId;
 	private Integer dId;
 	private Integer num;
 	private Integer remainingNum;
-	private Loan loan;
+	private Social social;
 	private String title;
 	private Integer theYear;
 	
 	private String department;
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public Integer getTheYear() {
-		return theYear;
-	}
-	public void setTheYear(Integer theYear) {
-		this.theYear = theYear;
-	}
+	
 	public String getDepartment() {
 		return department;
 	}
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public Integer getLoanId() {
-		return loanId;
-	}
-	public void setLoanId(Integer loanId) {
-		this.loanId = loanId;
-	}
-	public Loan getLoan() {
-		return loan;
-	}
-	public void setLoan(Loan loan) {
-		this.loan = loan;
-	}
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Integer getsId() {
+		return sId;
+	}
+	public void setsId(Integer sId) {
+		this.sId = sId;
 	}
 	public Integer getdId() {
 		return dId;
@@ -65,5 +48,24 @@ public class LoanDepartment {
 	public void setRemainingNum(Integer remainingNum) {
 		this.remainingNum = remainingNum;
 	}
+	public Social getSocial() {
+		return social;
+	}
+	public void setSocial(Social social) {
+		this.social = social;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public Integer getTheYear() {
+		return theYear;
+	}
+	public void setTheYear(Integer theYear) {
+		this.theYear = theYear;
+	}
+	
 	
 }

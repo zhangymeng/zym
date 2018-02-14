@@ -18,6 +18,4 @@ public interface LoanStudentDao {
 	Integer add(LoanVo vo);
 
 	Integer edit(IndexVo vo);
-
-	List<Loan> getLSByLoanIid(Integer id);
 }

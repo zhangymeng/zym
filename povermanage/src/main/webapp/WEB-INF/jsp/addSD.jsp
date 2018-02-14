@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </form>
 </div>
 
-<div id="addLS" style="display:none; margin-top:20px">
+<div id="addSS" style="display:none; margin-top:20px">
 <form class="layui-form" action="">  
 
   <div class="layui-form-item">
@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="layui-btn" data-type="add">添加</button>
 </div>
 <div class="student" style="margin-left: 30px;">
-<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/loan/findAll?loanId=${loanId}&type=1', page:true, id:'idTest'}" lay-filter="demo">
+<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/social/findAll?sId=${sId}&type=1', page:true, id:'idTest'}" lay-filter="demo">
   <thead>
     <tr>
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
@@ -139,7 +139,7 @@ layui.use(['table', 'form'],function(){
       }
    	  $('#stuNo').val('');
    	  $('#stuDesc').html('');
-   	  ldId = data.id; 
+   	  sdId = data.id; 
       layer.open({
       	  title: '修改',
           type: 1,
@@ -147,7 +147,7 @@ layui.use(['table', 'form'],function(){
           area: ['400px', '390px'],
           shift: 2,
           shadeClose: false,
-          content: $("#addLS"),
+          content: $("#addSS"),
           btn: ['查看分配信息'],
           yes: function(index, layero){
           	var stuNo = $("#stuNo").val();
@@ -179,11 +179,11 @@ layui.use(['table', 'form'],function(){
     //删除操作
       layer.confirm('真的删除行么', function(index){
       $.ajax({
-		url: "<%=basePath%>/loan/delLD",
+		url: "<%=basePath%>/social/delSD",
                     data: {
                         "id" : JSON.stringify(data.id),
                         "editNum":parseInt(data.num),
-                        "loanId":"${loanId}"
+                        "sId":"${sId}"
                     },
                     success: function (data) {
                     	//var dataobj = typeof data === "object" ? data : eval("(" + data + ")");
@@ -221,7 +221,7 @@ layui.use(['table', 'form'],function(){
 	      id = data.id;
 	      nums = data.num;
     }else if(obj.event === 'look'){
-    	window.location.href = "<%=basePath%>loan/loanStudent?loanId=${loanId}&dId="+data.dId;
+    	window.location.href = "<%=basePath%>social/socialStudent?sId=${sId}&dId="+data.dId;
     }
   });
   
@@ -241,7 +241,7 @@ form.verify({
 
   //监听添加提交
 form.on('submit(demo1)', function(data){
-	var loanId = "${loanId}";
+	var sId = "${sId}";
 	var dId = parseInt(data.field.dId);
 	var num = parseInt(data.field.num);
 	if(num<1){
@@ -251,11 +251,11 @@ form.on('submit(demo1)', function(data){
 	if(id!=null){
 	//修改
 		$.ajax({
-			url: "<%=basePath%>loan/addLD",
+			url: "<%=basePath%>social/addSD",
 	        data: {
 	        	"id":id,
 	            "num" : num,
-	            "loanId":loanId,
+	            "sId":sId,
 	            "editNum":nums
 	        },
 	        success: function (data) {
@@ -263,7 +263,7 @@ form.on('submit(demo1)', function(data){
 				   layer.msg("修改成功");
 	
 	               setTimeout(function () {
-	                   window.location.href = "<%=basePath%>loan/addLDPage?loanId="+loanId;
+	                   window.location.href = "<%=basePath%>social/addSDPage?sId="+sId;
 	               }, 1000);
 					
 				}else{
@@ -274,9 +274,9 @@ form.on('submit(demo1)', function(data){
 	}else{
 	//添加
 		$.ajax({
-			url: "<%=basePath%>loan/addLD",
+			url: "<%=basePath%>social/addSD",
 	        data: {
-	        	"loanId":loanId,
+	        	"sId":sId,
 	            "dId" : dId,
 	            "num" : num,
 	        },
@@ -285,7 +285,7 @@ form.on('submit(demo1)', function(data){
 				   layer.msg("添加成功");
 	
 	               setTimeout(function () {
-	                   window.location.href = "<%=basePath%>loan/addLDPage?loanId="+loanId;
+	                   window.location.href = "<%=basePath%>social/addSDPage?sId="+sId;
 	               }, 1000);
 					
 				}else{
@@ -305,16 +305,16 @@ form.on('submit(demo2)', function(data){
 		return;
 	}
 	$.ajax({
-		url: "<%=basePath%>loan/addLS",
+		url: "<%=basePath%>social/addSS",
         data: {
-        	"ldId":ldId,
+        	"sdId":sdId,
             "stuNo" : stuNo,
         },
         success: function (data) {
 			if(data.result==true){
 			   layer.msg("添加成功");
                setTimeout(function () {
-                   window.location.href = "<%=basePath%>loan/addLDPage?loanId=${loanId}";
+                   window.location.href = "<%=basePath%>social/addSDPage?sId=${sId}";
                }, 1000);
 				
 			}else{
@@ -367,7 +367,7 @@ form.on('submit(demo2)', function(data){
 });
 
 function backBtn(){
-	window.location.href = "<%=basePath%>loan/loanPage";
+	window.location.href = "<%=basePath%>social/socialPage";
 } 
 </script>
 

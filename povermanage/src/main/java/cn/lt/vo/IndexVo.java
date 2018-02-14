@@ -24,6 +24,25 @@ public class IndexVo {
 	
 	private Integer ldId;
 	private Integer studentId;
+	
+	private Integer sId;
+	private Integer sdId;
+
+	public Integer getsId() {
+		return sId;
+	}
+
+	public void setsId(Integer sId) {
+		this.sId = sId;
+	}
+
+	public Integer getSdId() {
+		return sdId;
+	}
+
+	public void setSdId(Integer sdId) {
+		this.sdId = sdId;
+	}
 
 	public Integer getStudentId() {
 		return studentId;

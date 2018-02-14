@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <button class="layui-btn" data-type="isAll">验证是否全选</button>
 </div> -->
 <div class="student" style="margin-left: 30px;">
-<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/loan/allLS?loanId=${loanId}&dId=${dId}', page:true, id:'idTest'}" lay-filter="demo">
+<table class="layui-table" lay-data="{width: 1300, height:500, url:'<%=basePath%>/social/allSS?sId=${sId}&dId=${dId}', page:true, id:'idTest'}" lay-filter="demo">
   <thead>
 	  <tr>
 	  	<th lay-data="{field:'id', width:40, sort: true, fixed: true}" rowspan="2">ID</th>
@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </tr>
       
       <tr>
-      <th lay-data="{field:'loanTitle', width:190}">贷款项</th>
+      <th lay-data="{field:'socialTitle', width:190}">贷款项</th>
       <th lay-data="{field:'theYear', width:70}">年度</th>
       <th lay-data="{field:'gradeNo', width:60 sort: true}">级</th>
       <th lay-data="{field:'stuName', width:110, sort: true}">姓名</th>
@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 layui.use(['table', 'form'],function(){
   var table = layui.table
   ,form = layui.form;
-  var ldId = null;
+  var sdId = null;
   //监听表格复选框选择
   table.on('checkbox(demo)', function(obj){
     console.log(obj)
@@ -103,10 +103,10 @@ layui.use(['table', 'form'],function(){
     if(obj.event === 'del'){
       layer.confirm('真的删除行么', function(index){
 	      $.ajax({
-			  url: "<%=basePath%>/loan/delLS",
+			  url: "<%=basePath%>/social/delSS",
 	          data: {
 	                "id" : data.id,
-	                "ldId":data.ldId
+	                "sdId":data.sdId
 	                },
 	          success: function (count) {
 				  if(count>0){
@@ -166,9 +166,9 @@ form.verify({
 function backBtn(){
 	var dId = "${dId}";
 	if(dId>0){
-		window.location.href = "<%=basePath%>loan/addLDPage?loanId=${loanId}";
+		window.location.href = "<%=basePath%>social/addSDPage?sId=${sId}";
 	}else{
-		window.location.href = "<%=basePath%>loan/loanPage";
+		window.location.href = "<%=basePath%>social/socialPage";
 	}
 }
 </script>
