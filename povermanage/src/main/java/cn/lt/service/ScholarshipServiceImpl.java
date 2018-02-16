@@ -73,7 +73,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 		vo.setsId(vo.getId());
 		List<ScholarshipStudent> lsList = scholarshipStudentDao.findAll(vo);
 		if(lsList.size()>0){
-			reason = "不能删除正在进行的贷款条";
+			reason = "不能删除正在进行的项";
 		}else{
 			scholarshipDao.del(vo);
 			
@@ -131,7 +131,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 		vo.setLdId(vo.getId());
 		List<ScholarshipStudent> lsList = scholarshipStudentDao.findAll(vo);
 		if(lsList.size()>0){
-			reason = "不能删除正在进行的贷款项";
+			reason = "不能删除正在进行的项";
 		}else{
 			Scholarship Scholarship = scholarshipDao.getScholarshipById(ScholarshipId);
 			scholarshipDepartmentDao.del(vo);
@@ -156,7 +156,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 		indexVo.setsId(vo.getsId());
 		List<ScholarshipDepartment> ldList = scholarshipDepartmentDao.findAll(indexVo);
 		if(ldList.size()>0){
-			reason = "该院系已被分配该资助";
+			reason = "该院系已被分配该项";
 		}else{
 			Scholarship Scholarship = scholarshipDao.getScholarshipById(vo.getsId());
 			if(Scholarship.getRemainingNum()<vo.getNum()){
@@ -219,7 +219,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 				indexVo.setLdId(vo.getSdId());
 				List<ScholarshipStudent> lsList = scholarshipStudentDao.findAll(indexVo);
 				if(lsList.size()>0){
-					reason = "该生已参与当前贷款";
+					reason = "该生已参与当前项";
 				}else{
 					vo.setStudentId(stu.getId());
 					ScholarshipDepartment ld = scholarshipDepartmentDao.getSDById(vo.getSdId());
@@ -234,7 +234,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 								result = true;
 							}
 						}else{
-							reason = "当前贷款与学号所在院系不匹配";
+							reason = "当前项与学号所在院系不匹配";
 						}
 					}
 				}

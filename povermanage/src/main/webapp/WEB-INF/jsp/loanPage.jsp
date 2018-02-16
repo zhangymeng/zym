@@ -96,10 +96,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <tr>
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
       <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
-      <th lay-data="{field:'title', width:200}">描述</th>
+      <th lay-data="{field:'title', width:400}">描述</th>
       <th lay-data="{field:'theYear', width:200}">年度</th>
-      <th lay-data="{field:'num', width:300, sort: true}">总名额</th>
-      <th lay-data="{field:'remainingNum', width:200, sort: true}">现剩余名额</th>
+      <th lay-data="{field:'num', width:100, sort: true}">总名额</th>
+      <th lay-data="{field:'remainingNum', width:100, sort: true}">现剩余名额</th>
       <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
   </thead>

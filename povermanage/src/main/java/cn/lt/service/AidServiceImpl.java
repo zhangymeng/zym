@@ -73,7 +73,7 @@ public class AidServiceImpl implements AidService {
 		vo.setAidId(vo.getId());
 		List<AidStudent> lsList = aidStudentDao.findAll(vo);
 		if(lsList.size()>0){
-			reason = "不能删除正在进行的贷款条";
+			reason = "不能删除正在进行的项";
 		}else{
 			aidDao.del(vo);
 			
@@ -131,7 +131,7 @@ public class AidServiceImpl implements AidService {
 		vo.setAdId(vo.getId());
 		List<AidStudent> lsList = aidStudentDao.findAll(vo);
 		if(lsList.size()>0){
-			reason = "不能删除正在进行的贷款项";
+			reason = "不能删除正在进行的项";
 		}else{
 			Aid aid = aidDao.getAidById(aidId);
 			aidDepartmentDao.del(vo);
@@ -156,7 +156,7 @@ public class AidServiceImpl implements AidService {
 		indexVo.setAidId(vo.getAidId());
 		List<AidDepartment> ldList = aidDepartmentDao.findAll(indexVo);
 		if(ldList.size()>0){
-			reason = "该院系已被分配该资助";
+			reason = "该院系已被分配该项";
 		}else{
 			Aid aid = aidDao.getAidById(vo.getAidId());
 			if(aid.getRemainingNum()<vo.getNum()){
@@ -219,7 +219,7 @@ public class AidServiceImpl implements AidService {
 				indexVo.setAdId(vo.getAdId());
 				List<AidStudent> lsList = aidStudentDao.findAll(indexVo);
 				if(lsList.size()>0){
-					reason = "该生已参与当前贷款";
+					reason = "该生已参与当前项";
 				}else{
 					vo.setStudentId(stu.getId());
 					AidDepartment ld = aidDepartmentDao.getADById(vo.getAdId());
@@ -234,7 +234,7 @@ public class AidServiceImpl implements AidService {
 								result = true;
 							}
 						}else{
-							reason = "当前贷款与学号所在院系不匹配";
+							reason = "当前项与学号所在院系不匹配";
 						}
 					}
 				}

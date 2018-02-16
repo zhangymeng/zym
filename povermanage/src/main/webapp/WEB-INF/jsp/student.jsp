@@ -161,7 +161,7 @@ layui.use(['table', 'form'],function(){
   table.on('tool(demo)', function(obj){
     var data = obj.data;
     if(obj.event === 'detail'){
-      layer.msg('ID：'+ data.id + ' 的查看操作');
+      window.location.href = "<%=basePath%>student/povertyPage?studentId="+data.id;
     } else if(obj.event === 'del'){
     //删除操作
       layer.confirm('真的删除行么', function(index){

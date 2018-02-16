@@ -73,7 +73,7 @@ public class SocialServiceImpl implements SocialService {
 		vo.setsId(vo.getId());
 		List<SocialStudent> lsList = socialStudentDao.findAll(vo);
 		if(lsList.size()>0){
-			reason = "不能删除正在进行的贷款条";
+			reason = "不能删除正在进行的项";
 		}else{
 			socialDao.del(vo);
 			
@@ -131,7 +131,7 @@ public class SocialServiceImpl implements SocialService {
 		vo.setLdId(vo.getId());
 		List<SocialStudent> lsList = socialStudentDao.findAll(vo);
 		if(lsList.size()>0){
-			reason = "不能删除正在进行的贷款项";
+			reason = "不能删除正在进行的项";
 		}else{
 			Social Social = socialDao.getSocialById(SocialId);
 			socialDepartmentDao.del(vo);
@@ -156,7 +156,7 @@ public class SocialServiceImpl implements SocialService {
 		indexVo.setsId(vo.getsId());
 		List<SocialDepartment> ldList = socialDepartmentDao.findAll(indexVo);
 		if(ldList.size()>0){
-			reason = "该院系已被分配该资助";
+			reason = "该院系已被分配该项";
 		}else{
 			Social Social = socialDao.getSocialById(vo.getsId());
 			if(Social.getRemainingNum()<vo.getNum()){
@@ -219,7 +219,7 @@ public class SocialServiceImpl implements SocialService {
 				indexVo.setLdId(vo.getSdId());
 				List<SocialStudent> lsList = socialStudentDao.findAll(indexVo);
 				if(lsList.size()>0){
-					reason = "该生已参与当前贷款";
+					reason = "该生已参与当前项";
 				}else{
 					vo.setStudentId(stu.getId());
 					SocialDepartment ld = socialDepartmentDao.getSDById(vo.getSdId());

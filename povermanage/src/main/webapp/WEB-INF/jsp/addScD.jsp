@@ -210,8 +210,9 @@ layui.use(['table', 'form'],function(){
 	          content: $("#add"),
 	          btn: ['关闭'],
 	          yes: function(index, layero){
-	          	id=null;
-	          	layer.close(index);
+	          	/* id=null;
+	          	layer.close(index); */
+	          	window.location.reload();
 	          }
 	      });
 	      $("#num").val(data.num);

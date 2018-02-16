@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
       <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
       <th lay-data="{field:'department', width:200}">院系</th>
-      <th lay-data="{field:'title', width:200}">资助名称</th>
+      <th lay-data="{field:'title', width:200}">社会资助描述</th>
       <th lay-data="{field:'theYear', width:100 sort: true">年度</th>
       <th lay-data="{field:'num', width:100, sort: true}">总名额</th>
       <th lay-data="{field:'remainingNum', width:150, sort: true}">现剩余名额</th>
@@ -210,13 +210,14 @@ layui.use(['table', 'form'],function(){
 	          content: $("#add"),
 	          btn: ['关闭'],
 	          yes: function(index, layero){
-	          	id=null;
-	          	layer.close(index);
+	          	/* id=null;
+	          	layer.close(index); */
+	          	window.location.reload();
 	          }
 	      });
 	      $("#num").val(data.num);
 	      $("#dId option[value='"+ data.dId +"']").prop('selected', true);
-	      $("#dId").prop("disabled",true);
+	      $("#dId").attr("disabled",true); 
 	      form.render();  
 	      id = data.id;
 	      nums = data.num;
@@ -339,7 +340,7 @@ form.on('submit(demo2)', function(data){
       	});
       	$("#num").val("");
 	    $("#dId option[value='0']").prop('selected', true);
-	    $("#dId").removeAttr('disabled'); 
+	    $("#dId").removeAttr("disabled");
     }
     
     

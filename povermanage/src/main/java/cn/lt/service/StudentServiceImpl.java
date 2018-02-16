@@ -81,7 +81,7 @@ public class StudentServiceImpl implements StudentService {
 		String reason = "";
 		//学号不重�?
 		Student su = studentDao.getStudentByNo(vo);
-		if(su==null){
+		if(su==null || (su!=null && su.getId()==vo.getId())){
 			vo.setClassNo(vo.getGradeNo()+4);
 			Integer count = 0;
 			if(vo.getId()!=null){
@@ -89,9 +89,7 @@ public class StudentServiceImpl implements StudentService {
 			}else{
 				count = studentDao.add(vo);
 			}
-			if(count>0){
-				result = true;
-			}
+			result = true;
 		}else{
 			reason = "学号已存在";
 		}
